@@ -7,12 +7,22 @@ public class Pion {
 	private int position;
 	private Couleur couleur;
 	private int vie;
+	private boolean victoire;
 	
 	public Pion(Couleur c, String n) {
 		this.position = 0;
 		this.couleur = c;
 		this.vie = 5;
 		this.nom = n;
+		this.victoire = false;
+	}
+	
+	public boolean getVictoire() {
+		return this.victoire;
+	}
+	
+	public void setVictoire(boolean b) {
+		this.victoire = b;
 	}
 	
 	public String getNom() {

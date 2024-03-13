@@ -4,6 +4,7 @@ import cases.Case;
 import cases.IleFemmes;
 import cases.OnePiece;
 import jeu.Couleur;
+import jeu.TourJoueur;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -14,6 +15,12 @@ public class Processing extends PApplet {
 	PImage marine;
 	PImage coffre;
 	PImage sanji;
+	PImage combat;
+	
+	int unite_x = width / 100;
+	int unite_y = height / 100;
+	
+	TourJoueur joueur = TourJoueur.ZORO;
 	
 	public static void main(String[] args) {
 		PApplet.main("IHM.Processing");
@@ -35,10 +42,13 @@ public class Processing extends PApplet {
 		coffre.resize(width / (14 * 9/10), width / (14 * 11/10));
 		sanji = loadImage("C:/Users/maelc/eclipse-workspace/LesPirates/src/image/sanji.png");
 		sanji.resize(width / (14 * 12/10), width / (14 * 13/10));
+		combat = loadImage("C:/Users/maelc/eclipse-workspace/LesPirates/src/image/combat.png");
+		combat.resize(width / (14 * 12/10), width / (14 * 13/10));
 	}
 
 	public void draw() {
 		dessinerPlateau();
+		dessinerLancementDe();
 	}
 	
 	public void dessinerCase(Case c) {
@@ -85,6 +95,7 @@ public class Processing extends PApplet {
 		int coinHG_y = height / 100 * 20;
 		int tailleCase = width / 14;
 		strokeWeight(1);
+		stroke(0);
 		Case c1 = new Case(coinHG_x + 0 * tailleCase, coinHG_y + 0 * tailleCase, 1, Couleur.BLANC, tailleCase);
 		dessinerCase(c1);
 		Case c2 = new Case(coinHG_x + 1 * tailleCase, coinHG_y + 0 * tailleCase, 2, Couleur.BLANC, tailleCase);
@@ -158,5 +169,17 @@ public class Processing extends PApplet {
 		line(coinHG_x + 1 * tailleCase, coinHG_y + 2 * tailleCase, coinHG_x + 4 * tailleCase, coinHG_y + 2 * tailleCase);
 		line(coinHG_x + 4 * tailleCase, coinHG_y + 2 * tailleCase, coinHG_x + 4 * tailleCase, coinHG_y + 3 * tailleCase);
 		line(coinHG_x + 4 * tailleCase, coinHG_y + 3 * tailleCase, coinHG_x + 2 * tailleCase, coinHG_y + 3 * tailleCase);
+	}
+	
+	public void dessinerLancementDe() {
+		if(joueur == TourJoueur.ZORO) {
+			stroke(0, 150, 0);
+			noFill();
+			rect(width / 100 * 10, height / 100 * 60 , width / 100 * 30, height / 100 * 20);
+			fill(0, 150, 0);
+			textSize(40);
+			textAlign(CENTER, CENTER);
+			text("Lancer les dés !", width / 100 * 25, height / 100 * 70);
+		}
 	}
 }

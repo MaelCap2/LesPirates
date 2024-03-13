@@ -9,5 +9,8 @@ public class IleFemmes extends Case{
 		super(x, y, n, t, i, pix, piy);
 		this.couleur = Couleur.ROSE;
 	}
-
+	
+	public void action() {
+		
+	}
 }

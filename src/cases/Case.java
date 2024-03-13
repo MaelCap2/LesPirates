@@ -11,6 +11,7 @@ public class Case {
 	protected PImage image;
 	protected int positionImg_x;
 	protected int positionImg_y;
+	protected boolean[] personnages = new boolean[2];
 	
 	public Case(int x, int y, int n, Couleur c, int t) {
 		this.position = new int[2];
