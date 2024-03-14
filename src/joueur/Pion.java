@@ -1,5 +1,8 @@
 package joueur;
 
+import java.util.Random;
+
+import cases.Case;
 import jeu.Couleur;
 
 public class Pion {
@@ -8,6 +11,7 @@ public class Pion {
 	private Couleur couleur;
 	private int vie;
 	private boolean victoire;
+	private int tour;
 	
 	public Pion(Couleur c, String n) {
 		this.position = 0;
@@ -15,6 +19,16 @@ public class Pion {
 		this.vie = 5;
 		this.nom = n;
 		this.victoire = false;
+		this.tour = 0;
+		
+	}
+	
+	public int getTour() {
+		return this.tour;
+	}
+	
+	public void setTour(int i) {
+		this.tour = this.tour + i;
 	}
 	
 	public boolean getVictoire() {
@@ -33,6 +47,10 @@ public class Pion {
 		return this.position;
 	}
 	
+	public void setPosition(int des) {
+		this.position = this.position + des;
+	}
+	
 	public Couleur getCouleur() {
 		return this.couleur;
 	}
@@ -46,5 +64,18 @@ public class Pion {
 		if(this.vie < 0) {
 			this.vie = 0;
 		}
+	}
+	
+	public int jouer(Case[] tableau) {
+		Random random = new Random();
+        int de = random.nextInt(6) + 1;
+        if (this.getPosition() + de <= 29) {
+        	this.setPosition(de);
+        } else {
+        	this.setPosition(29 - this.getPosition());
+        }
+        this.setTour(2);
+        tableau[this.getPosition()].action(this);
+        return de;
 	}
 }

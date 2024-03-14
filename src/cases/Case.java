@@ -1,6 +1,9 @@
 package cases;
 
+
 import jeu.Couleur;
+import joueur.Pion;
+import joueur.Vismoke;
 import processing.core.PImage;
 
 public class Case {
@@ -11,7 +14,7 @@ public class Case {
 	protected PImage image;
 	protected int positionImg_x;
 	protected int positionImg_y;
-	protected boolean[] personnages = new boolean[2];
+	protected Pion[] personnages = new Pion[2];
 	
 	public Case(int x, int y, int n, Couleur c, int t) {
 		this.position = new int[2];
@@ -46,6 +49,18 @@ public class Case {
 		this.positionImg_y = piy;
 	}
 	
+	public Pion[] getPersonnages() {
+		return this.personnages;
+	}
+	
+	public void setPersonnages(Pion p) {
+		if (p instanceof Vismoke) {
+			this.personnages[1] = p;
+		} else {
+			this.personnages[0] = p;
+		}
+	}
+	
 	public int getPositionImg_x() {
 		return this.positionImg_x;
 	}
@@ -74,6 +89,8 @@ public class Case {
 		return this.taille;
 	}
 	
-	//public abstract void action();
+	public void action(Pion p) {
+		
+	};
 
 }

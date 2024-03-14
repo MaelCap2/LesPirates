@@ -1,6 +1,8 @@
 package cases;
 
 import jeu.Couleur;
+import joueur.Pion;
+import joueur.Vismoke;
 import processing.core.PImage;
 
 public class IleFemmes extends Case{
@@ -10,7 +12,9 @@ public class IleFemmes extends Case{
 		this.couleur = Couleur.ROSE;
 	}
 	
-	public void action() {
-		
+	public void action(Pion p) {
+		if(p instanceof Vismoke) {
+			p.setTour(2);
+		}
 	}
 }
