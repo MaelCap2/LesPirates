@@ -3,24 +3,45 @@ package joueur;
 import java.util.Random;
 
 import cases.Case;
+import cases.Plateau;
 import jeu.Couleur;
+import jeu.De;
 
-public class Pion {
+public abstract class Pion {
 	private String nom;
 	private int position;
 	private Couleur couleur;
 	private int vie;
-	private boolean victoire;
+	private boolean caseVictoire;
 	private int tour;
+	private boolean caseFruit;
+	private boolean fruit;
 	
 	public Pion(Couleur c, String n) {
 		this.position = 0;
 		this.couleur = c;
 		this.vie = 5;
 		this.nom = n;
-		this.victoire = false;
+		this.caseVictoire = false;
 		this.tour = 0;
+		this.caseFruit = false;
 		
+	}
+	
+	public boolean getCaseFruit() {
+		return this.caseFruit;
+	}
+	
+	public void setCaseFruit(boolean b) {
+		this.caseFruit = b;
+	}
+	
+	public boolean getFruit() {
+		return this.fruit;
+	}
+	
+	public void setFruit(boolean b) {
+		this.fruit = b;
 	}
 	
 	public int getTour() {
@@ -31,12 +52,12 @@ public class Pion {
 		this.tour = this.tour + i;
 	}
 	
-	public boolean getVictoire() {
-		return this.victoire;
+	public boolean getCaseVictoire() {
+		return this.caseVictoire;
 	}
 	
 	public void setVictoire(boolean b) {
-		this.victoire = b;
+		this.caseVictoire = b;
 	}
 	
 	public String getNom() {
@@ -66,16 +87,24 @@ public class Pion {
 		}
 	}
 	
-	public int jouer(Case[] tableau) {
-		Random random = new Random();
-        int de = random.nextInt(6) + 1;
-        if (this.getPosition() + de <= 29) {
-        	this.setPosition(de);
+	public De jouer(Plateau p) {
+		p.getDe().lancerDe();
+        if(this instanceof Roronoa) {
+        	p.getDe().setDe(p.getDe().getDe() - 1);
+        }
+        if (this.getPosition() + p.getDe().getDe() <= 29) {
+        	this.setPosition(p.getDe().getDe());
         } else {
-        	this.setPosition(29 - this.getPosition());
+        	int n = this.getPosition() + p.getDe().getDe() - 29;
+			n = 29 - n;
+			this.setPosition(n - this.getPosition());
         }
         this.setTour(2);
-        tableau[this.getPosition()].action(this);
-        return de;
-	}
+        p.getPlateau()[this.getPosition()].action(this, p);
+        if(this instanceof Roronoa) {
+        	p.getDe().setDe(p.getDe().getDe() + 1);
+        	return p.getDe();
+        }
+        return p.getDe();
+	};
 }

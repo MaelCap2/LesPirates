@@ -1,12 +1,15 @@
 package cases;
 
 import jeu.Couleur;
-import processing.core.PImage;
+import joueur.Pion;
 
 public class Normale extends Case{
-	public Normale(int x, int y, int n, int t, PImage i, int pix, int piy) {
-		super(x, y, n, t, i, pix, piy);
+	public Normale(int x, int y, int n, int t) {
+		super(x, y, n, t);
 		this.couleur = Couleur.BLANC;
+		this.description = "Case : Normale";
 	}
-
+	
+	public void action(Pion j, Plateau p) {
+	}
 }
