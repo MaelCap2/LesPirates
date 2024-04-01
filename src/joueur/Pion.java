@@ -1,8 +1,5 @@
 package joueur;
 
-import java.util.Random;
-
-import cases.Case;
 import cases.Plateau;
 import jeu.Couleur;
 import jeu.De;
@@ -12,10 +9,11 @@ public abstract class Pion {
 	private int position;
 	private Couleur couleur;
 	private int vie;
-	private boolean caseVictoire;
 	private int tour;
-	private boolean caseFruit;
 	private boolean fruit;
+	private boolean caseFruit;
+	private boolean caseVictoire;
+	private boolean caseVS;
 	
 	public Pion(Couleur c, String n) {
 		this.position = 0;
@@ -34,6 +32,14 @@ public abstract class Pion {
 	
 	public void setCaseFruit(boolean b) {
 		this.caseFruit = b;
+	}
+	
+	public boolean getCaseVS() {
+		return this.caseVS;
+	}
+	
+	public void setCaseVS(boolean b) {
+		this.caseVS = b;
 	}
 	
 	public boolean getFruit() {
@@ -90,21 +96,24 @@ public abstract class Pion {
 	public De jouer(Plateau p) {
 		p.getDe().lancerDe();
         if(this instanceof Roronoa) {
-        	p.getDe().setDe(p.getDe().getDe() - 1);
+        	p.getDe().setBonus(-1);
         }
-        if (this.getPosition() + p.getDe().getDe() <= 29) {
-        	this.setPosition(p.getDe().getDe());
+        if(this.getFruit()) {
+        	p.getDe().setBonus(2);
+        }
+        if (this.getPosition() + p.getDe().getNombre() + p.getDe().getBonus() <= 29) {
+        	this.setPosition(p.getDe().getNombre() + p.getDe().getBonus());
         } else {
-        	int n = this.getPosition() + p.getDe().getDe() - 29;
+        	int n = this.getPosition() + p.getDe().getNombre() + p.getDe().getBonus() - 29;
 			n = 29 - n;
 			this.setPosition(n - this.getPosition());
         }
         this.setTour(2);
         p.getPlateau()[this.getPosition()].action(this, p);
-        if(this instanceof Roronoa) {
-        	p.getDe().setDe(p.getDe().getDe() + 1);
-        	return p.getDe();
-        }
         return p.getDe();
-	};
+	}
+	
+	public void setVie() {
+		this.vie = this.vie - 1;
+	}
 }

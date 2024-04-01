@@ -1,10 +1,12 @@
 package jeu;
 
 public enum Etat {
-	OPEN,
-	ATTENTE,
+	COMMENCER_1,
+	COMMENCER_2,
 	FRUIT,
 	JEU,
 	CLICK,
-	VICTOIRE
+	VICTOIRE,
+	COMBAT_1,
+	COMBAT_2
 }

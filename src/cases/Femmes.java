@@ -10,7 +10,7 @@ public class Femmes extends Case{
 	public Femmes(int x, int y, int n, int t, PImage i, int pix, int piy) {
 		super(x, y, n, t, i, pix, piy);
 		this.couleur = Couleur.ROSE;
-		this.description = "Case : Femmes";
+		this.description = "Femmes";
 	}
 	
 	public void action(Pion j, Plateau p) {

@@ -8,10 +8,12 @@ public class Fruit extends Case{
 	public Fruit(int x, int y, int n, int t, PImage i, int pix, int piy) {
 		super(x, y, n, t, i, pix, piy);
 		this.couleur = Couleur.NOIR;
-		this.description = "Case : Fruit du démon";
+		this.description = "Fruit du démon";
 	}
 	
 	public void action(Pion j, Plateau p) {
-		j.setCaseFruit(true);
+		if(!j.getFruit()) {
+			j.setCaseFruit(true);
+		}
 	}
 }
