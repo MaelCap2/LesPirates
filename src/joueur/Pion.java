@@ -14,6 +14,8 @@ public abstract class Pion {
 	private boolean caseFruit;
 	private boolean caseVictoire;
 	private boolean caseVS;
+	private boolean caseMarine;
+	private int nbTourCaseMarine;
 	
 	public Pion(Couleur c, String n) {
 		this.position = 0;
@@ -24,6 +26,22 @@ public abstract class Pion {
 		this.tour = 0;
 		this.caseFruit = false;
 		
+	}
+	
+	public int getNbTourCaseMarine() {
+		return this.nbTourCaseMarine;
+	}
+	
+	public void setNbTourCaseMarine() {
+		this.nbTourCaseMarine ++;
+	}
+	
+	public boolean getCaseMarine() {
+		return this.caseMarine;
+	}
+	
+	public void setCaseMarine(boolean b) {
+		this.caseMarine = b;
 	}
 	
 	public boolean getCaseFruit() {
@@ -102,7 +120,18 @@ public abstract class Pion {
         	p.getDe().setBonus(2);
         }
         if (this.getPosition() + p.getDe().getNombre() + p.getDe().getBonus() <= 29) {
-        	this.setPosition(p.getDe().getNombre() + p.getDe().getBonus());
+        	if(this.getCaseMarine()) {
+        		this.setNbTourCaseMarine();
+        		if(p.getDe().getNombre() % 2 != 0) {
+        			this.setPosition(0);
+        		} else {
+        			this.setPosition(p.getDe().getNombre() + p.getDe().getBonus());
+        			this.setCaseMarine(false);
+        		}
+        	} else {
+        		this.setPosition(p.getDe().getNombre() + p.getDe().getBonus());
+        	}
+        	
         } else {
         	int n = this.getPosition() + p.getDe().getNombre() + p.getDe().getBonus() - 29;
 			n = 29 - n;

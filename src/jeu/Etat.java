@@ -8,5 +8,6 @@ public enum Etat {
 	CLICK,
 	VICTOIRE,
 	COMBAT_1,
-	COMBAT_2
+	COMBAT_2,
+	MARINE
 }

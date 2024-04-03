@@ -78,9 +78,12 @@ public class Processing extends PApplet {
 			if(plateau.getZoro().getCaseVS() || plateau.getSanji().getCaseVS()) {
 				etat = Etat.COMBAT_1;
 			}
+			if((plateau.getZoro().getCaseMarine() && plateau.getZoro().getNbTourCaseMarine() == 0) || (plateau.getSanji().getCaseMarine() && plateau.getSanji().getNbTourCaseMarine() == 0)) {
+				etat = Etat.MARINE;
+			}
 			break;
 		case CLICK:
-			dessinerTour();
+			tour();
 			etat = Etat.JEU;
 			break;
 		case VICTOIRE:
@@ -95,10 +98,30 @@ public class Processing extends PApplet {
 		case COMBAT_2:
 			etatCombat2();
 			break;
+		case MARINE:
+			etatMarine();
+			break;
 		default:
 		      break;
+		}	
+	}
+	
+	public void etatMarine() {
+		background(255);
+		image(marine, width / 100 * 25, height / 100 * 8, fruit.width * 10, fruit.height * 6);
+		noFill();
+		stroke(0);
+		strokeWeight(5);
+		rect(width / 100 * 70, height / 100 * 78 , width / 100 * 25, height / 100 * 15);
+		fill(0);
+		textSize(30);
+		text("Retour au jeu", width / 200 * 165, height / 200 * 171);
+		if(plateau.getZoro().getCaseMarine()) {
+			text("La marine a capturé Zoro", width / 100 * 30, height / 100 * 85);
+		} else {
+			text("La marine a capturé Sanji", width / 100 * 30, height / 100 * 85);
 		}
-		
+		text("Faire un chiffre paire pour s'échapper", width / 100 * 30, height / 100 * 90);
 	}
 	
 	public void etatCommencer1() {
@@ -124,7 +147,6 @@ public class Processing extends PApplet {
 		text("Lancer le dé !", width / 2, height / 100 * 70);
 		image(zoroVS, width / 40, height / 10 * 6, zoroVS.width/2, zoroVS.height/2);
 		image(sanjiVS, width / 40 * 27, height / 10 * 6, zoroVS.width/2, zoroVS.height/2);
-		
 	}
 	
 	public void etatCommencer2() {
@@ -157,7 +179,7 @@ public class Processing extends PApplet {
 		fill(255);
 		textSize(40);
 		textAlign(CENTER, CENTER);
-		text("Combat !", width/2, height/100*10);
+		text("Combat !", width/2, height/100 * 10);
 		textSize(24);
 		text("Lancer le dé pour savoir qui \nremporte l'affrontement :", width / 100 * 20, height / 100 * 67);
 		text("Pair = Zoro\nImpair = Sanji", width / 100 * 20, height / 100 * 79);
@@ -201,8 +223,9 @@ public class Processing extends PApplet {
 			fill(255);
 			rect(width / 100 * 70, height / 100 * 78 , width / 100 * 25, height / 100 * 15);
 			fill(0);
+			textAlign(CENTER, CENTER); 
 			textSize(30);
-			text("Retour au jeu !", width / 200 * 165, height / 200 * 171);
+			text("Retour au jeu", width / 200 * 165, height / 200 * 171);
 			plateau.getZoro().setCaseVS(false);
 			plateau.getSanji().setCaseVS(false);
 		}
@@ -214,12 +237,28 @@ public class Processing extends PApplet {
 		textAlign(CENTER, CENTER);
 		if (plateau.getZoro().getCaseVictoire() || plateau.getSanji().getVie() == 0) {
 			fill(0, 150, 0);
-			text("Zoro gagne !", width/2, height/10);
-			image(zoroVS, width / 10 * (2) , height / 10 * 2);
+			textSize(40);
+			text("Zoro gagne !", width/100*25, height/10);
+			image(zoroVS, width / 10 * 2, height / 10 * 2);
+			if (plateau.getZoro().getCaseVictoire()) {
+				textSize(32);
+				text("Il est le premier à atteindre le bateau.", width / 100 * 75, height / 10);
+			} else {
+				textSize(32);
+				text("Il est le dernier debout.", width / 100 * 75, height / 10);
+			}
 		} else {
 			fill(0, 0, 200);
-			text("Sanji gagne !", width/2, height/10);
-			image(sanjiVS, width / 10 * (2) , height / 10 * 2);
+			textSize(40);
+			text("Sanji gagne !", width/100*25, height/10);
+			image(sanjiVS, width / 10 * 2, height / 10 * 2);
+			if (plateau.getSanji().getCaseVictoire()) {
+				textSize(32);
+				text("Il est le premier à atteindre le bateau.", width / 100 * 75, height / 10);
+			} else {
+				textSize(32);
+				text("Il est le dernier debout.", width / 100 * 75, height / 10);
+			}
 		}
 	}
 	
@@ -244,7 +283,7 @@ public class Processing extends PApplet {
 		plateau.getSanji().setCaseFruit(false);
 	}
 	
-	public void dessinerTour() {
+	public void tour() {
 		dessinerPlateau();
 		textSize(40);
 		if(plateau.getZoro().getTour() < plateau.getSanji().getTour()) {
@@ -344,7 +383,7 @@ public class Processing extends PApplet {
 					String bonus = "+" + plateau.getDe().getBonus();
 					text(bonus, width / 100 * 45, height / 100 * 80);
 				}
-			}	
+			}
 		}
 	}
 	
@@ -426,7 +465,7 @@ public class Processing extends PApplet {
 		Case c7 = new Femmes(coinHG_x + 5 * tailleCase, coinHG_y + 1 * tailleCase, 7, tailleCase, femme, width / (14 * 15), width / (14 * 10));
 		dessinerCase(c7);
 		plateau.setPlateau(c7, 6);
-		Case c8 = new Normale(coinHG_x + 5 * tailleCase, coinHG_y + 2 * tailleCase, 8, tailleCase);
+		Case c8 = new Marine(coinHG_x + 5 * tailleCase, coinHG_y + 2 * tailleCase, 8, tailleCase, marine, width / (14 * 15), width / (14 * 5));
 		dessinerCase(c8);
 		plateau.setPlateau(c8, 7);
 		Case c9 = new Normale(coinHG_x + 5 * tailleCase, coinHG_y + 3 * tailleCase, 9, tailleCase);
@@ -462,7 +501,7 @@ public class Processing extends PApplet {
 		Case c19 = new Combat(coinHG_x + 1 * tailleCase, coinHG_y + 1 * tailleCase, 19, tailleCase, combat, -width / (14 * 6), -width / (14 * 10));
 		dessinerCase(c19);
 		plateau.setPlateau(c19, 18);
-		Case c20 = new Normale(coinHG_x + 2 * tailleCase, coinHG_y + 1 * tailleCase, 20, tailleCase);
+		Case c20 = new Marine(coinHG_x + 2 * tailleCase, coinHG_y + 1 * tailleCase, 20, tailleCase, marine, width / (14 * 15), width / (14 * 5));
 		dessinerCase(c20);
 		plateau.setPlateau(c20, 19);
 		Case c21 = new Eau(coinHG_x + 3 * tailleCase, coinHG_y + 1 * tailleCase, 21, tailleCase, eau, width / (14 * 15), width / (14 * 10));
@@ -477,7 +516,7 @@ public class Processing extends PApplet {
 		Case c24 = new Femmes(coinHG_x + 4 * tailleCase, coinHG_y + 3 * tailleCase, 24, tailleCase, femme, width / (14 * 15), width / (14 * 10));
 		dessinerCase(c24);
 		plateau.setPlateau(c24, 23);
-		Case c25 = new Normale(coinHG_x + 3 * tailleCase, coinHG_y + 3 * tailleCase, 25, tailleCase);
+		Case c25 = new Combat(coinHG_x + 3 * tailleCase, coinHG_y + 3 * tailleCase, 25, tailleCase, combat, -width / (14 * 6), -width / (14 * 10));
 		dessinerCase(c25);
 		plateau.setPlateau(c25, 24);
 		Case c26 = new Normale(coinHG_x + 2 * tailleCase, coinHG_y + 3 * tailleCase, 26, tailleCase);
@@ -561,6 +600,10 @@ public class Processing extends PApplet {
 		  if(etat == Etat.COMBAT_2 && mouseX > width / 100 * 70 && mouseX < width / 100 * 95 && mouseY > height / 100 * 78 && mouseY < height / 100 * 93) {
 			  etat = Etat.JEU;
 		  }
-		  
+		  if(etat == Etat.MARINE && mouseX > width / 100 * 70 && mouseX < width / 100 * 95 && mouseY > height / 100 * 78 && mouseY < height / 100 * 93) {
+			  plateau.getZoro().setNbTourCaseMarine();
+			  plateau.getSanji().setNbTourCaseMarine();
+			  etat = Etat.JEU;
+		  }
 		}
 }

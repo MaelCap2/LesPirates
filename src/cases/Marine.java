@@ -12,5 +12,6 @@ public class Marine extends Case{
 	}
 	
 	public void action(Pion j, Plateau p) {
+		j.setCaseMarine(true);
 	}
 }
